@@ -15,9 +15,12 @@ class Yoast_ACF_Analysis {
 	private $plugin_data = null;
 	
 	function __construct() {
-		$this->plugin_data = get_plugin_data(dirname(__FILE__));
-		
+		add_action('admin_init', array($this, 'admin_init'));
 		add_filter('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
+	}
+	
+	public function admin_init() {
+		$this->plugin_data = get_plugin_data(dirname(__FILE__));
 	}
 	
 	public function enqueue_scripts() {
