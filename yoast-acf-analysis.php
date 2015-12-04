@@ -33,7 +33,7 @@ class Yoast_ACF_Analysis {
 			}
 			
 			// Yoast
-			if(!is_plugin_active('wordpress-seo/wp-seo.php')) {
+			if(!is_plugin_active('wordpress-seo/wp-seo.php') && !is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')) {
 				add_action('admin_notices', array($this, 'require_yoast'));
 				$deactivate = true;
 			}
