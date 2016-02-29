@@ -3,7 +3,7 @@
  * Plugin Name: Yoast ACF Analysis
  * Plugin URI: https://forsberg.ax
  * Description: Adds the content of all ACF fields to the Yoast SEO score analysis.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Marcus Forsberg
  * Author URI: https://forsberg.ax
  * License: GPL v3
@@ -87,7 +87,7 @@ class Yoast_ACF_Analysis {
 	 * Notify that we need ACF to be installed and active.
 	 */
 	public function acf_not_active_notification() {
-		$message = __( 'ACF Yoast Analysis requires Advanced Custom Fields (free or pro) to be installed and activated.', 'wordpress-seo' );
+		$message = __( 'ACF Yoast Analysis requires Advanced Custom Fields (free or pro) to be installed and activated.', 'yoast-acf-analysis' );
 
 		printf( '<div class="error"><p>%s</p></div>', esc_html( $message ) );
 	}
@@ -96,7 +96,7 @@ class Yoast_ACF_Analysis {
 	 * Notify that we need WordPress SEO to be installed and active.
 	 */
 	public function wordpress_seo_requirements_not_met() {
-		$message = __( 'ACF Yoast Analysis requires Yoast SEO 3.0+ to be installed and activated.', 'wordpress-seo' );
+		$message = __( 'ACF Yoast Analysis requires Yoast SEO 3.0+ to be installed and activated.', 'yoast-acf-analysis' );
 
 		printf( '<div class="error"><p>%s</p></div>', esc_html( $message ) );
 	}
