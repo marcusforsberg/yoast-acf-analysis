@@ -11,7 +11,7 @@
 			this.analysisTimeout = 0;
 
 			// Re-analyse SEO score each time the content of an ACF field is updated
-			$('#post-body').find('input[type=text][id^=acf], textarea[id^=acf-]').on('keyup paste cut blur', function() {
+			$('#post-body, #edittag').find('input[type=text][id^=acf], textarea[id^=acf-]').on('keyup paste cut blur', function() {
 				if ( YoastACFAnalysis.analysisTimeout ) {
 					window.clearTimeout(YoastACFAnalysis.analysisTimeout);
 				}
@@ -29,7 +29,7 @@
 		YoastACFAnalysis.prototype.addAcfFieldsToContent = function(data) {
 			var acf_content = ' ';
 			
-			$('#post-body').find('input[type=text][id^=acf], textarea[id^=acf-]').each(function() {
+			$('#post-body, #edittag').find('input[type=text][id^=acf], textarea[id^=acf-]').each(function() {
 				acf_content += ' ' + $(this).val();
 			});
 

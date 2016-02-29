@@ -31,7 +31,8 @@ class Yoast_ACF_Analysis {
 	function __construct() {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_recalculation_data_to_content' ) );
+		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_recalculation_data_to_post_content' ) );
+		add_filter( 'wpseo_term_description_for_recalculation', array( $this, 'add_recalculation_data_to_term_content' ) );
 	}
 
 	/**
@@ -104,12 +105,24 @@ class Yoast_ACF_Analysis {
 	 * Enqueue JavaScript file to feed data to Yoast Content Analyses.
 	 */
 	public function enqueue_scripts() {
+		// Post page enqueue.
 		wp_enqueue_script(
-			'yoast-acf-analysis',
+			'yoast-acf-analysis-post',
 			plugins_url( '/js/yoast-acf-analysis.js', __FILE__ ),
 			array(
 				'jquery',
 				'wp-seo-post-scraper',
+			),
+			$this->plugin_data['Version']
+		);
+
+		// Term page enqueue.
+		wp_enqueue_script(
+			'yoast-acf-analysis-term',
+			plugins_url( '/js/yoast-acf-analysis.js', __FILE__ ),
+			array(
+				'jquery',
+				'wp-seo-term-scraper',
 			),
 			$this->plugin_data['Version']
 		);
@@ -123,7 +136,7 @@ class Yoast_ACF_Analysis {
 	 *
 	 * @return string Content with added ACF data.
 	 */
-	public function add_recalculation_data_to_content( $content, $post ) {
+	public function add_recalculation_data_to_post_content( $content, $post ) {
 		// ACF defines this function.
 		if ( ! function_exists( 'get_fields' ) ) {
 			return '';
@@ -135,6 +148,22 @@ class Yoast_ACF_Analysis {
 
 		$post_acf_fields = get_fields( $post->ID );
 		$acf_content = $this->get_field_data( $post_acf_fields );
+
+		return trim( $content . ' ' . $acf_content );
+	}
+
+	public function add_recalculation_data_to_term_content( $content, $term ) {
+		// ACF defines this function.
+		if ( ! function_exists( 'get_fields' ) ) {
+			return '';
+		}
+
+		if ( false === ( $term instanceof WP_Term ) ) {
+			return '';
+		}
+
+		$term_acf_fields = get_fields( $term->taxonomy . '_' . $term->term_id );
+		$acf_content = $this->get_field_data( $term_acf_fields );
 
 		return trim( $content . ' ' . $acf_content );
 	}
