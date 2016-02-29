@@ -57,7 +57,7 @@ class Yoast_ACF_Analysis {
 			}
 			else {
 				// Compare if version is >= 3.0
-				if ( defined('WPSEO_VERSION') ) {
+				if ( defined( 'WPSEO_VERSION' ) ) {
 					if ( version_compare( substr( WPSEO_VERSION, 0, 3 ), '3.0', '<' ) ) {
 						add_action( 'admin_notices', array( $this, 'wordpress_seo_requirements_not_met' ) );
 						$deactivate = true;
@@ -147,11 +147,19 @@ class Yoast_ACF_Analysis {
 		}
 
 		$post_acf_fields = get_fields( $post->ID );
-		$acf_content = $this->get_field_data( $post_acf_fields );
+		$acf_content     = $this->get_field_data( $post_acf_fields );
 
 		return trim( $content . ' ' . $acf_content );
 	}
 
+	/**
+	 * Add custom fields to term content
+	 *
+	 * @param string  $content String of the content to add data to.
+	 * @param WP_Term $term    The term to get the custom ffields of.
+	 *
+	 * @return string Content with added ACF data.
+	 */
 	public function add_recalculation_data_to_term_content( $content, $term ) {
 		// ACF defines this function.
 		if ( ! function_exists( 'get_fields' ) ) {
@@ -163,7 +171,7 @@ class Yoast_ACF_Analysis {
 		}
 
 		$term_acf_fields = get_fields( $term->taxonomy . '_' . $term->term_id );
-		$acf_content = $this->get_field_data( $term_acf_fields );
+		$acf_content     = $this->get_field_data( $term_acf_fields );
 
 		return trim( $content . ' ' . $acf_content );
 	}
@@ -191,15 +199,12 @@ class Yoast_ACF_Analysis {
 				case 'array':
 					if ( isset( $field['sizes']['thumbnail'] ) ) {
 						// Put all images in img tags for scoring.
-						$alt = ( isset( $field['alt'] ) ) ? $field['alt'] : '';
+						$alt   = ( isset( $field['alt'] ) ) ? $field['alt'] : '';
 						$title = ( isset( $field['title'] ) ) ? $field['title'] : '';
 
 						$output .= ' <img src="' . esc_url( $field['sizes']['thumbnail'] ) . '" alt="' . esc_attr( $alt ) . '" title="' . esc_attr( $title ) . '" />';
 					}
 					else {
-
-						// formatting
-
 						$output .= ' ' . $this->get_field_data( $field );
 					}
 
