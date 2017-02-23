@@ -1,4 +1,8 @@
 # Yoast ACF Analysis
+## Please see the up-to-date version maintained by Yoast: https://github.com/Yoast/yoast-acf-analysis/
+
+---
+
 WordPress plugin that adds the content of all ACF fields to the Yoast SEO score analysis.
 
 ##Description
